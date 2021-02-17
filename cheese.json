@@ -1,0 +1,276 @@
+{
+  "format_version": "0.1",
+  "terraform_version": "0.14.2",
+  "variables": {
+    "credit_card_cvv": { "value": 123 },
+    "credit_card_expiration": { "value": "5/24" },
+    "credit_card_number": { "value": 4111111111111111 },
+    "credit_card_zip": { "value": "90210" },
+    "delivery_city": { "value": "Cleveland" },
+    "delivery_state": { "value": "OH" },
+    "delivery_street": { "value": "601 Lakeside Avenue" },
+    "delivery_zip": { "value": "44114" },
+    "email_address": { "value": "test.user@example.com" },
+    "first_name": { "value": "Test" },
+    "last_name": { "value": "User" },
+    "phone_number": { "value": "1234567890" },
+    "pizza_order": { "value": ["Large", "Wisconsin 6 Cheese"] }
+  },
+  "planned_values": {
+    "outputs": { "item_code": { "sensitive": false, "value": "P14IBKCZ" } },
+    "root_module": {
+      "resources": [
+        {
+          "address": "dominos_order.order",
+          "mode": "managed",
+          "type": "dominos_order",
+          "name": "order",
+          "provider_name": "onlydole/pizza/dominos",
+          "schema_version": 0,
+          "values": {
+            "address_api_object": "{\"City\":\"Cleveland\",\"PostalCode\":\"44114\",\"Region\":\"OH\",\"Street\":\"601 Lakeside Avenue\",\"Type\":\"House\"}",
+            "item_codes": ["P14IBKCZ"],
+            "store_id": "2229"
+          }
+        }
+      ]
+    }
+  },
+  "resource_changes": [
+    {
+      "address": "dominos_order.order",
+      "mode": "managed",
+      "type": "dominos_order",
+      "name": "order",
+      "provider_name": "onlydole/pizza/dominos",
+      "change": {
+        "actions": ["create"],
+        "before": null,
+        "after": {
+          "address_api_object": "{\"City\":\"Cleveland\",\"PostalCode\":\"44114\",\"Region\":\"OH\",\"Street\":\"601 Lakeside Avenue\",\"Type\":\"House\"}",
+          "item_codes": ["P14IBKCZ"],
+          "store_id": "2229"
+        },
+        "after_unknown": { "id": true, "item_codes": [false] }
+      }
+    }
+  ],
+  "output_changes": {
+    "item_code": {
+      "actions": ["create"],
+      "before": null,
+      "after": "P14IBKCZ",
+      "after_unknown": false
+    }
+  },
+  "prior_state": {
+    "format_version": "0.1",
+    "terraform_version": "0.14.2",
+    "values": {
+      "outputs": { "item_code": { "sensitive": false, "value": "P14IBKCZ" } },
+      "root_module": {
+        "resources": [
+          {
+            "address": "data.dominos_address.addr",
+            "mode": "data",
+            "type": "dominos_address",
+            "name": "addr",
+            "provider_name": "onlydole/pizza/dominos",
+            "schema_version": 0,
+            "values": {
+              "api_object": "{\"City\":\"Cleveland\",\"PostalCode\":\"44114\",\"Region\":\"OH\",\"Street\":\"601 Lakeside Avenue\",\"Type\":\"House\"}",
+              "city": "Cleveland",
+              "id": "address",
+              "state": "OH",
+              "street": "601 Lakeside Avenue",
+              "url_object": "{\"line1\":\"601 Lakeside Avenue\",\"line2\":\"Cleveland, OH 44114\"}",
+              "zip": "44114"
+            }
+          },
+          {
+            "address": "data.dominos_menu_item.pizza",
+            "mode": "data",
+            "type": "dominos_menu_item",
+            "name": "pizza",
+            "provider_name": "onlydole/pizza/dominos",
+            "schema_version": 0,
+            "values": {
+              "id": "2229",
+              "matches": [
+                {
+                  "code": "P14IBKCZ",
+                  "name": "Large (14\") Brooklyn Wisconsin 6 Cheese Pizza",
+                  "price_cents": 1599
+                },
+                {
+                  "code": "P14IRECZ",
+                  "name": "Large (14\") Hand Tossed Wisconsin 6 Cheese Pizza",
+                  "price_cents": 1599
+                },
+                {
+                  "code": "P14ITHCZ",
+                  "name": "Large (14\") Thin Wisconsin 6 Cheese Pizza",
+                  "price_cents": 1599
+                }
+              ],
+              "query_string": ["Large", "Wisconsin 6 Cheese"],
+              "store_id": "2229"
+            }
+          },
+          {
+            "address": "data.dominos_store.store",
+            "mode": "data",
+            "type": "dominos_store",
+            "name": "store",
+            "provider_name": "onlydole/pizza/dominos",
+            "schema_version": 0,
+            "values": {
+              "address_url_object": "{\"line1\":\"601 Lakeside Avenue\",\"line2\":\"Cleveland, OH 44114\"}",
+              "delivery_minutes": 20,
+              "id": "store",
+              "store_id": "2229"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "configuration": {
+    "provider_config": {
+      "dominos": {
+        "name": "dominos",
+        "expressions": {
+          "credit_card": [
+            {
+              "cvv": { "references": ["var.credit_card_cvv"] },
+              "date": { "references": ["var.credit_card_expiration"] },
+              "number": { "references": ["var.credit_card_number"] },
+              "zip": { "references": ["var.credit_card_zip"] }
+            }
+          ],
+          "email_address": { "references": ["var.email_address"] },
+          "first_name": { "references": ["var.first_name"] },
+          "last_name": { "references": ["var.last_name"] },
+          "phone_number": { "references": ["var.phone_number"] }
+        }
+      }
+    },
+    "root_module": {
+      "outputs": {
+        "item_code": {
+          "expression": { "references": ["data.dominos_menu_item.pizza"] }
+        }
+      },
+      "resources": [
+        {
+          "address": "dominos_order.order",
+          "mode": "managed",
+          "type": "dominos_order",
+          "name": "order",
+          "provider_config_key": "dominos",
+          "expressions": {
+            "address_api_object": {
+              "references": ["data.dominos_address.addr"]
+            },
+            "item_codes": { "references": ["data.dominos_menu_item.pizza"] },
+            "store_id": { "references": ["data.dominos_store.store"] }
+          },
+          "schema_version": 0
+        },
+        {
+          "address": "data.dominos_address.addr",
+          "mode": "data",
+          "type": "dominos_address",
+          "name": "addr",
+          "provider_config_key": "dominos",
+          "expressions": {
+            "city": { "references": ["var.delivery_city"] },
+            "state": { "references": ["var.delivery_state"] },
+            "street": { "references": ["var.delivery_street"] },
+            "zip": { "references": ["var.delivery_zip"] }
+          },
+          "schema_version": 0
+        },
+        {
+          "address": "data.dominos_menu_item.pizza",
+          "mode": "data",
+          "type": "dominos_menu_item",
+          "name": "pizza",
+          "provider_config_key": "dominos",
+          "expressions": {
+            "query_string": { "references": ["var.pizza_order"] },
+            "store_id": { "references": ["data.dominos_store.store"] }
+          },
+          "schema_version": 0
+        },
+        {
+          "address": "data.dominos_store.store",
+          "mode": "data",
+          "type": "dominos_store",
+          "name": "store",
+          "provider_config_key": "dominos",
+          "expressions": {
+            "address_url_object": {
+              "references": ["data.dominos_address.addr"]
+            }
+          },
+          "schema_version": 0
+        }
+      ],
+      "variables": {
+        "credit_card_cvv": {
+          "default": 123,
+          "description": "The CVV number on the back of your card used to pay for pizza"
+        },
+        "credit_card_expiration": {
+          "default": "5/24",
+          "description": "The expiration date of your credit card"
+        },
+        "credit_card_number": {
+          "default": 4111111111111111,
+          "description": "A credit card number used to pay for your pizza"
+        },
+        "credit_card_zip": {
+          "default": "90210",
+          "description": "The zip code used to authorize your credit card"
+        },
+        "delivery_city": {
+          "default": "Cleveland",
+          "description": "The pizza delivery city"
+        },
+        "delivery_state": {
+          "default": "OH",
+          "description": "The pizza delivery state"
+        },
+        "delivery_street": {
+          "default": "601 Lakeside Avenue",
+          "description": "The pizza delivery house or unit number"
+        },
+        "delivery_zip": {
+          "default": "44114",
+          "description": "The pizza delivery zip code"
+        },
+        "email_address": {
+          "default": "test.user@example.com",
+          "description": "The email address of your pizza recipient"
+        },
+        "first_name": {
+          "default": "Test",
+          "description": "The first name of your pizza recipient"
+        },
+        "last_name": {
+          "default": "User",
+          "description": "The last name of your pizza recipient"
+        },
+        "phone_number": {
+          "default": "1234567890",
+          "description": "The phone number of your pizza recipient"
+        },
+        "pizza_order": {
+          "default": ["Large", "Wisconsin 6 Cheese"],
+          "description": "A word or list of words used to create a pizza order"
+        }
+      }
+    }
+  }
+}
